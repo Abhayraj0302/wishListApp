@@ -1,9 +1,9 @@
 package com.example.wishlistapp.home
 
-import com.example.wishlistapp.data.wishListItems
+import com.example.wishlistapp.data.WishItem
 
-sealed interface  HomeEvent{
+sealed interface HomeEvent {
     data class DeleteWish(
-        val wish : wishListItems
+        val wish: WishItem
     ) : HomeEvent
 }

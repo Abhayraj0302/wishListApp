@@ -1,6 +1,5 @@
 package com.example.wishlistapp.home
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.wishlistapp.R
 import com.example.wishlistapp.home.components.AppTopBar
-import com.example.wishlistapp.home.components.wishListCard
+import com.example.wishlistapp.home.components.WishListCard
 import com.example.wishlistapp.ui.theme.AppBackground
 import com.example.wishlistapp.ui.theme.LightGreen
 
@@ -43,7 +42,7 @@ import com.example.wishlistapp.ui.theme.LightGreen
 fun HomeScreen(
     navController: NavHostController,
     onAddWishClick: () -> Unit,
-    vm: homeViewModel
+    vm: HomeViewModel
 ) {
     Box(
         modifier = Modifier
@@ -134,7 +133,7 @@ fun HomeScreen(
                             }
                         ) {
                             // Your existing card
-                            wishListCard(item)
+                            WishListCard(item)
                         }
                     }
                 }
@@ -147,5 +146,5 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     val navController = rememberNavController()
-    HomeScreen(navController, {}, vm = homeViewModel())
+    HomeScreen(navController, {}, vm = HomeViewModel())
 }

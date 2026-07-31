@@ -1,39 +1,38 @@
-package com.example.wishlistapp.Navigation
+package com.example.wishlistapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.wishlistapp.addwish.AddWishScreen
 import com.example.wishlistapp.home.HomeScreen
-import com.example.wishlistapp.home.homeViewModel
-import com.example.wishlistapp.wishScreen.addWishScreen
+import com.example.wishlistapp.home.HomeViewModel
 
 @Composable
-fun Navigation() {
+fun AppNavigation() {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.home.route
+        startDestination = NavRoutes.Home.route
     ) {
         composable(
-            NavRoutes.home.route
+            NavRoutes.Home.route
         ) {
-            val viewmodel : homeViewModel = viewModel()
+            val viewModel: HomeViewModel = viewModel()
             HomeScreen(
                 navController = navController,
                 onAddWishClick = {
-                    navController.navigate(NavRoutes.addwish.route)
+                    navController.navigate(NavRoutes.AddWish.route)
                 },
-                vm = viewmodel
+                vm = viewModel
             )
         }
         composable(
-            NavRoutes.addwish.route,
+            NavRoutes.AddWish.route,
         ) {
-            addWishScreen(navController = navController)
+            AddWishScreen(navController = navController)
         }
     }
 }
-
