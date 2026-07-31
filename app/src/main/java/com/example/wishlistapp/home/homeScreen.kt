@@ -30,9 +30,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.wishlistapp.R
+import com.example.wishlistapp.WishViewModel.WishlistViewModel
 import com.example.wishlistapp.home.components.AppTopBar
 import com.example.wishlistapp.home.components.WishListCard
 import com.example.wishlistapp.ui.theme.AppBackground
@@ -42,8 +44,10 @@ import com.example.wishlistapp.ui.theme.LightGreen
 fun HomeScreen(
     navController: NavHostController,
     onAddWishClick: () -> Unit,
-    vm: HomeViewModel
+    vm: WishlistViewModel = viewModel()
 ) {
+    val uiState by vm.uiState.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -67,15 +71,16 @@ fun HomeScreen(
                 }
             }
         ) { paddingValues ->
-            val uiState by vm.uiState.collectAsState()
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(AppBackground)
                     .padding(paddingValues)
-
             ) {
+
                 if (uiState.wishListItems.isEmpty()) {
+
                     item {
                         Box(
                             modifier = Modifier
@@ -84,7 +89,7 @@ fun HomeScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Their's no specific time to make a wish \uD83E\uDE84",
+                                text = "There's no specific time to make a wish 🪄",
                                 modifier = Modifier.padding(16.dp),
                                 color = Color.LightGray,
                                 fontWeight = FontWeight.SemiBold,
@@ -92,47 +97,49 @@ fun HomeScreen(
                             )
                         }
                     }
+
                 } else {
+
                     items(
-                        uiState.wishListItems,
+                        items = uiState.wishListItems,
                         key = { it.id }
                     ) { item ->
+
                         SwipeToDismissBox(
                             state = rememberSwipeToDismissBoxState(
                                 confirmValueChange = { dismissValue ->
 
-                                    if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
-                                        vm.onEvent(
-                                            HomeEvent.DeleteWish(item)
-                                        )
+                                    if (
+                                        dismissValue ==
+                                        SwipeToDismissBoxValue.EndToStart
+                                    ) {
+                                        vm.deleteWish(item)
                                     }
 
                                     true
                                 }
                             ),
+                            enableDismissFromStartToEnd = false,
                             backgroundContent = {
+
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(8.dp),
+                                        .height(80.dp)
+                                        .padding(8.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(Color.Red),
                                     contentAlignment = Alignment.CenterEnd
                                 ) {
                                     Text(
                                         text = "Delete",
                                         color = Color.White,
                                         fontWeight = FontWeight.Bold,
-
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .clip(RoundedCornerShape(12.dp))
-                                            .height(80.dp)
-                                            .background(color = Color.Red)
-                                            .padding(16.dp)
+                                        modifier = Modifier.padding(16.dp)
                                     )
                                 }
                             }
                         ) {
-                            // Your existing card
                             WishListCard(item)
                         }
                     }
@@ -140,11 +147,4 @@ fun HomeScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-    HomeScreen(navController, {}, vm = HomeViewModel())
 }
