@@ -22,7 +22,7 @@ import com.example.wishlistapp.home.HomeScreen
 fun AppNavigation() {
 
     val navController = rememberNavController()
-    val wishlistViewModel: WishlistViewModel = viewModel()
+    val wishlistViewModel: WishlistViewModel = viewModel(factory = WishlistViewModel.Factory)
 
     NavHost(
         navController = navController,

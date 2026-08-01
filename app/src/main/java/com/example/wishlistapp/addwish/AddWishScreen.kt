@@ -135,10 +135,11 @@ fun AddWishScreen(
                     onClick = {
                             val count = uistate.numberOfItem.toIntOrNull() ?: 0
                             val wish = WishItem(
-                                wishname = uistate.wishName,
+                                wishname = uistate.wishName.trim(),
                                 count = count
                             )
                             vm.addWish(wish)
+                        vm.resetAddWishState()
                         Toast.makeText(context , "Wish Added" , Toast.LENGTH_SHORT).show()
                         onBackClick()
                     }

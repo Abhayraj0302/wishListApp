@@ -1,4 +1,6 @@
 plugins {
+    alias(libs.plugins.ksp)
+
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
@@ -60,4 +62,12 @@ dependencies {
 
     //icons
     implementation("androidx.compose.material:material-icons-extended")
+
+    //DAO
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+}
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")  // lets Room export schema history, useful for migrations
 }
